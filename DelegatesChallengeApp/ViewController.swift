@@ -28,6 +28,17 @@ class ViewController: UIViewController, UITextFieldDelegate
         self.txtLockable.delegate = self
     }
 
+    @IBAction func swtchLockableChange(_ sender: AnyObject)
+    {
+        print( "ViewController::swtchLockableChange()" )
+        if !(sender as! UISwitch).isOn
+        {
+            self.txtLockable.resignFirstResponder()
+        }
+    }
+    
+    //MHH - For the 3rd txtLockable field, the ViewController is also the Text Field
+    //      Delegate since there isn't much to do except for turning the editing on/off
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool
     {
         print( "ViewController::textFieldShouldBeginEditing()" )

@@ -21,22 +21,16 @@ class CashTxtFldDelegate: NSObject, UITextFieldDelegate
         
         print( "existing text:", currentText )
         print( "user entered:", proposedText )
-        
-        //MHH - I couldn't find any other way to determine this that didn't require additional code to try
-        //      and harcode the backspace value into a C String and compare it - lots of different options on
-        //      if this works or not on StackExchange.
-        //      So I found another way -
-        //      if replacement string is null and the new range is less than the current text field size,
-        //      the user hit backspace - I confirmed this is what happens using the debugger.
-        
-        //MHH - Backspace - bypass numeric check and set flag.
+  
+        //MHH - Backspace - bypass numeric check and set flag - do not return yet as the field still has to be re-formatted
+        //      and the logic needs to remove the "leftmost" digit to mirror the editing style.
         if ( proposedText.length == 0 && range.length < currentText.length )
         {
             backspace = true
         }
         else
         {
-            //MHH - next make sure the user didn't enter any non numeric data
+            //MHH - next make sure the user didn't enter any non numeric data and reject edit if so
             let pattern = "\\D"
         
             do
@@ -81,7 +75,7 @@ class CashTxtFldDelegate: NSObject, UITextFieldDelegate
         
         print( "CashTxtFldDelegate::unformatted new value will be:", temp )
 
-        var finalValue = Float(temp)
+        var finalValue = Double(temp)
         print( "CashTxtFldDelegate::finalvalue float is:", temp )
         finalValue? *= 0.01
         
